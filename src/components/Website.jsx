@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Menu, X, ChevronDown } from 'lucide-react';
+import { Menu, X, ChevronDown, Sparkles, Heart, Music, Leaf, Zap } from 'lucide-react';
 
 export default function Website() {
   const [currentPage, setCurrentPage] = useState('home');
@@ -98,7 +98,7 @@ export default function Website() {
 
   // Smiley face illustration
   const SmileyIllustration = ({ size = 'large', mood = 'happy' }) => {
-    const sizeClass = size === 'large' ? 'w-48 h-48' : 'w-32 h-32';
+    const sizeClass = size === 'large' ? 'w-48 h-48' : size === 'face' ? 'w-20 h-20' : 'w-32 h-32';
     return (
       <div className={`${sizeClass} relative mx-auto`}>
         <svg viewBox="0 0 200 200" className="w-full h-full">
@@ -124,33 +124,64 @@ export default function Website() {
     </svg>
   );
 
+  // Floating image tile for the hero's swirl cluster, each with a corner icon badge
+  const ImageTile = ({ size, top, left, rotate = 0, zIndex = 1, Icon }) => (
+    <div
+      className="absolute rounded-2xl bg-gray-100 border border-gray-200 overflow-hidden"
+      style={{ width: size, height: size, top, left, transform: `rotate(${rotate}deg)`, zIndex }}
+    >
+      <svg viewBox="0 0 100 100" className="w-full h-full opacity-50" preserveAspectRatio="none">
+        <line x1="0" y1="0" x2="100" y2="100" stroke="#D1D5DB" strokeWidth="2" />
+        <line x1="100" y1="0" x2="0" y2="100" stroke="#D1D5DB" strokeWidth="2" />
+      </svg>
+      <div className="absolute -bottom-2 -right-2 w-7 h-7 rounded-full bg-white border border-gray-300 flex items-center justify-center">
+        <Icon size={13} strokeWidth={2} className="text-gray-600" />
+      </div>
+    </div>
+  );
+
   // HOME PAGE
   const HomePage = () => (
     <div className="bg-white">
-      {/* Hero Section */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32">
-        <div className="grid md:grid-cols-2 gap-12 items-center">
-          <div>
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">
+      {/* Hero Section — full-bleed photo backdrop with overlaid CTA block + floating image swirl.
+          In production, bg-gray-100 is replaced by a lifestyle photo art-directed so the
+          subject's gaze leads toward the lower-right tile cluster below. */}
+      <section className="relative overflow-hidden bg-gray-100 border-b border-gray-200">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24 min-h-[460px] md:min-h-[560px]">
+          {/* Left CTA block: upper-left third, overlaid directly on the photo */}
+          <div className="relative z-10 max-w-sm">
+            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 leading-tight">
               Headline&mdash;the relief you&apos;ve been needing
             </h1>
-            <p className="text-lg text-gray-600 mb-8">
-              Subheading naming who this is for
+            <div className="mb-3">
+              <SmileyIllustration size="face" mood="happy" />
+            </div>
+            <p className="text-sm text-gray-600 mb-4">
+              Subheadline naming who this is for
             </p>
-            <div className="flex gap-4">
+            <div className="flex items-center gap-4 flex-wrap">
               <button
                 onClick={() => setCurrentPage('signup')}
-                className="px-8 py-3 bg-indigo-600 text-white rounded-full font-medium hover:bg-indigo-700 transition"
+                className="px-6 py-2.5 bg-indigo-600 text-white rounded-full font-medium hover:bg-indigo-700 transition text-sm"
               >
                 Get started free
               </button>
-              <button className="px-8 py-3 text-gray-700 hover:text-gray-900 transition">
+              <button className="text-gray-700 hover:text-gray-900 transition text-sm">
                 See how it works
               </button>
             </div>
           </div>
-          <div className="flex justify-center">
-            <SmileyIllustration size="large" mood="happy" />
+
+          {/* Right swirl cluster: 5 independent floating tiles, no connecting path,
+              drifting smaller/higher-left to larger/lower-right with a slight inward curve */}
+          <div className="hidden md:block absolute inset-y-0 right-0 w-2/3 pointer-events-none">
+            <div className="relative w-full h-full">
+              <ImageTile size={45} top="8%" left="6%" rotate={-6} zIndex={2} Icon={Sparkles} />
+              <ImageTile size={55} top="26%" left="20%" rotate={4} zIndex={3} Icon={Heart} />
+              <ImageTile size={65} top="12%" left="44%" rotate={-3} zIndex={1} Icon={Music} />
+              <ImageTile size={80} top="44%" left="58%" rotate={5} zIndex={2} Icon={Leaf} />
+              <ImageTile size={95} top="56%" left="76%" rotate={-4} zIndex={1} Icon={Zap} />
+            </div>
           </div>
         </div>
       </section>
