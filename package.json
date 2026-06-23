@@ -1,9 +1,9 @@
 {
-  "name": "company-saas-site",
+  "name": "YL",
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://meseeksjoe.github.io/company-saas-site",
+  "homepage": "https://meseeksjoe.github.io/YL-site",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
